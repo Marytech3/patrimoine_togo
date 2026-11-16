@@ -1,0 +1,57 @@
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+      - ./web/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      asset-api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  asset-api:
+    build:
+      context: .
+      dockerfile: asset-service/Dockerfile
+    environment:
+      APP_NAME: PatrimoineTogo
+      APP_ENV: local
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:-base64:6SjO6zcC23e45L8RpVXUfYExlAhK0zPh2lN4+uSqHBc=}
+      APP_URL: http://localhost:8080
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: patrimoine
+      DB_USERNAME: patrimoine
+      DB_PASSWORD: ${DB_PASSWORD:-patrimoine_local}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php", "artisan", "about", "--only=environment"]
+      interval: 20s
+      timeout: 8s
+      retries: 5
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: patrimoine
+      POSTGRES_USER: patrimoine
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-patrimoine_local}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U patrimoine -d patrimoine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
