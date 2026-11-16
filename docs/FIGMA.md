@@ -17,7 +17,7 @@
 
 ## Reprendre dans Figma
 
-La maquette de cette livraison est implémentée dans `../web/index.html` et `../web/styles.css`, et le frame de référence bureau est livré en SVG importable : [maquette-vue-ensemble.svg](maquette-vue-ensemble.svg). Aucun espace Figma n'est connecté ; ce SVG est donc le support de conception à reprendre, pas un fichier Figma publié. Pour la reprise, importez le SVG dans un fichier Figma, créez une page **01 · Produit**, un frame mobile 390 × 844, puis reconstruisez les éléments comme frames/Auto Layout avec les tokens ci-dessus. Conserver les états d'erreur et vide comme variantes de composants.
+La maquette est implémentée dans `../web/index.html` et `../web/styles.css`, et le frame de référence bureau est livré en [SVG importable](maquette-vue-ensemble.svg). Le document cible fourni est [Sans titre — Patrimoine Togo](https://www.figma.com/design/waAztuRniXMVQR7QKW6JIx/Sans-titre?node-id=0-1&t=u1zzY7pK4oXFmrRX-1). L'ouverture du lien demande une connexion Figma ; le contenu du document n'a donc pas pu être modifié depuis cette session. Après connexion, importe le SVG dans ce document (glisser-déposer sur le canevas ou **File → Place image**), crée une page **01 · Produit** et un frame mobile 390 × 844, puis reconstruis les composants en Auto Layout avec les tokens ci-dessus. Conserver les états d'erreur et vide comme variantes.
 
 ## Justification UX
 

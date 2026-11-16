@@ -26,7 +26,7 @@ Les données affichées sont fictives et ne représentent pas un inventaire offi
 
 ## Dépôt et mise en ligne
 
-Le projet est prêt à être poussé sur GitHub (`git init`, `git add .`, `git commit`, puis ajout d'un dépôt distant). Aucun dépôt GitHub, compte d'hébergeur ou URL de production n'a été fourni : le code ne peut pas être publié en votre nom depuis cet environnement. Voir `docs/DEPLOIEMENT.md` pour le parcours de mise en ligne et les limites du palier gratuit.
+Code source : [github.com/Marytech3/patrimoine_togo](https://github.com/Marytech3/patrimoine_togo). Maquette cible : [document Figma partagé](https://www.figma.com/design/waAztuRniXMVQR7QKW6JIx/Sans-titre?node-id=0-1&t=u1zzY7pK4oXFmrRX-1). Fichier de maquette de secours/import : [SVG bureau](docs/maquette-vue-ensemble.svg). Voir `docs/DEPLOIEMENT.md` pour le parcours de mise en ligne et les limites du palier gratuit.
 
 ## Livrables pédagogiques
 
@@ -34,7 +34,7 @@ Le projet est prêt à être poussé sur GitHub (`git init`, `git add .`, `git c
 | --- | --- |
 | Plateforme exécutable | `docker-compose.yml`, `asset-service/`, `web/` |
 | Conception, UML, fiche technique, estimation et guide | `docs/` |
-| Maquette Figma | `docs/FIGMA.md` (spécification de maquette reproductible ; fichier Figma à créer/importer) |
+| Maquette et reprise Figma | `docs/maquette-vue-ensemble.svg`, `docs/FIGMA.md` (importer le SVG dans le document partagé) |
 
 ## Qualité
 
