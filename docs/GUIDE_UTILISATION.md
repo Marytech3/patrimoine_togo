@@ -8,7 +8,7 @@ Installez Docker Desktop avec Compose v2, ouvrez un terminal à la racine du dé
 docker compose up --build
 ```
 
-Dans un navigateur, ouvrez `http://localhost:8080`. Le premier démarrage télécharge les images et dépendances ; il peut prendre quelques minutes. L'API applique les migrations et charge un petit jeu de données synthétique au démarrage. Pour arrêter : `Ctrl+C`, puis `docker compose down`.
+Dans un navigateur, ouvrez `http://localhost:8081`. Le port 8080 étant déjà pris par une autre passerelle Docker de cette machine, le prototype utilise 8081. Le premier démarrage télécharge les images et dépendances ; il peut prendre quelques minutes. L'API applique les migrations et charge un petit jeu de données synthétique au démarrage. Pour arrêter : `Ctrl+C`, puis `docker compose down`.
 
 ## Consulter le tableau de bord
 
@@ -28,11 +28,11 @@ Cliquez **Exporter** ou **Exporter CSV** dans l'inventaire. Le navigateur télé
 
 ## API pour la démonstration
 
-- Santé : `GET http://localhost:8080/api/v1/health`
-- Résumé : `GET http://localhost:8080/api/v1/summary`
-- Inventaire : `GET http://localhost:8080/api/v1/assets?per_page=50`
-- Recherche : `GET http://localhost:8080/api/v1/assets?q=Kara&status=bon`
-- Création : `POST http://localhost:8080/api/v1/assets` avec un JSON contenant `name`, `category`, `ministry`, `location`, `status`.
+- Santé : `GET http://localhost:8081/api/v1/health`
+- Résumé : `GET http://localhost:8081/api/v1/summary`
+- Inventaire : `GET http://localhost:8081/api/v1/assets?per_page=50`
+- Recherche : `GET http://localhost:8081/api/v1/assets?q=Kara&status=bon`
+- Création : `POST http://localhost:8081/api/v1/assets` avec un JSON contenant `name`, `category`, `ministry`, `location`, `status`.
 
 ## Réinitialiser la démonstration
 
@@ -42,10 +42,10 @@ Cliquez **Exporter** ou **Exporter CSV** dans l'inventaire. Le navigateur télé
 
 | Symptôme | Action |
 | --- | --- |
-| La page ne s'ouvre pas | Vérifier Docker Desktop et `docker compose ps` ; vérifier que le port 8080 est libre |
+| La page ne s'ouvre pas | Vérifier Docker Desktop et `docker compose ps` ; vérifier que le port 8081 est libre |
 | Les indicateurs ne se chargent pas | Vérifier `docker compose logs asset-api postgres`, puis recharger après le démarrage complet |
 | Erreur de connexion PostgreSQL au démarrage | Attendre le healthcheck ; afficher les logs Postgres et vérifier la variable `DB_PASSWORD` |
-| Port occupé | Changer la partie gauche de `8080:80` dans Compose (ex. `8081:80`), redémarrer et ouvrir le nouveau port |
+| Port occupé | Changer la partie gauche de `8081:80` dans Compose (ex. `8082:80`), redémarrer et ouvrir le nouveau port |
 
 ## Limites de ce guide
 

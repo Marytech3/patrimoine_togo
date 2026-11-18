@@ -2,7 +2,7 @@ services:
   web:
     image: nginx:1.27-alpine
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - ./web:/usr/share/nginx/html:ro
       - ./web/nginx.conf:/etc/nginx/conf.d/default.conf:ro
@@ -20,7 +20,7 @@ services:
       APP_ENV: local
       APP_DEBUG: "false"
       APP_KEY: ${APP_KEY:-base64:6SjO6zcC23e45L8RpVXUfYExlAhK0zPh2lN4+uSqHBc=}
-      APP_URL: http://localhost:8080
+      APP_URL: http://localhost:8081
       LOG_CHANNEL: stderr
       DB_CONNECTION: pgsql
       DB_HOST: postgres

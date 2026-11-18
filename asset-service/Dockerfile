@@ -1,6 +1,6 @@
 FROM composer:2 AS vendor
 WORKDIR /app
-COPY asset-service/composer.json asset-service/composer.lock ./
+COPY asset-service/ ./
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 FROM php:8.3-cli-alpine

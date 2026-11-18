@@ -10,7 +10,7 @@ Prérequis : Docker Desktop et Docker Compose v2.
 docker compose up --build
 ```
 
-Ouvrir [http://localhost:8080](http://localhost:8080). L'interface charge les données de démonstration de l'API quand elle est disponible et propose un mode de démonstration autonome si l'API est arrêtée. Arrêt : `docker compose down`. Réinitialisation des données (destructif) : `docker compose down -v`.
+Ouvrir [http://localhost:8081](http://localhost:8081). Le port 8080 étant déjà utilisé par une autre passerelle Docker sur cette machine, le prototype écoute sur 8081. L'interface charge les données de démonstration de l'API quand elle est disponible et propose un mode de démonstration autonome si l'API est arrêtée. Arrêt : `docker compose down`. Réinitialisation des données (destructif) : `docker compose down -v`.
 
 Le démarrage complet recommandé est Docker Compose. Pour travailler sur l'API seule sans Docker : `cd asset-service`, copier `.env.example` en `.env`, configurer PostgreSQL, exécuter `composer install`, `php artisan key:generate`, `php artisan migrate --seed`, puis `php artisan serve`. Le serveur Laravel seul ne fournit pas le proxy web de la plateforme complète.
 
