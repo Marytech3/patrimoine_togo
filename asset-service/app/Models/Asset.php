@@ -11,6 +11,11 @@ class Asset extends Model
         'status', 'acquired_at', 'value_xof', 'description',
     ];
 
+    public function movements()
+    {
+        return $this->hasMany(AssetMovement::class);
+    }
+
     protected function casts(): array
     {
         return ['acquired_at' => 'date', 'value_xof' => 'integer'];

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143e32">
+  <meta name="description" content="Guide d'utilisation du démonstrateur de gestion du patrimoine public togolais">
+  <title>Guide d’utilisation · Patrimoine public</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="guide-body">
+  <header class="guide-topbar">
+    <a class="guide-brand" href="/"><span class="brand-logo">⌂</span><span><b>PATRIMOINE</b><small>RÉPUBLIQUE TOGOLAISE</small></span></a>
+    <a class="guide-back" href="/">← Retour au tableau de bord</a>
+  </header>
+  <main class="guide-main">
+    <div class="guide-hero">
+      <div class="eyebrow"><span class="flag">✳</span> DOCUMENTATION · DÉMONSTRATEUR</div>
+      <h1>Guide d’utilisation</h1>
+      <p>Les étapes essentielles pour prendre en main la plateforme de gestion du patrimoine public.</p>
+    </div>
+    <div class="guide-layout">
+      <nav class="guide-toc" aria-label="Sommaire">
+        <b>Dans ce guide</b>
+        <a href="#demarrer">Lancer la plateforme</a>
+        <a href="#tableau">Consulter le tableau de bord</a>
+        <a href="#rechercher">Rechercher un bien</a>
+        <a href="#services">Gérer les services</a>
+        <a href="#mouvements">Tracer un mouvement</a>
+        <a href="#ajouter">Ajouter un bien</a>
+        <a href="#exporter">Exporter l’inventaire</a>
+        <a href="#rapports">Consulter les rapports</a>
+        <a href="#carte">Carte du territoire</a>
+        <a href="#api">API de démonstration</a>
+        <a href="#reinitialiser">Réinitialiser les données</a>
+        <a href="#depannage">Dépannage</a>
+        <a href="#limites">Limites du prototype</a>
+      </nav>
+      <article class="guide-content">
+        <div class="guide-callout"><b>Environnement de démonstration</b><span>Les biens et montants affichés sont fictifs. N’y saisissez aucune donnée personnelle, sensible ou réelle du patrimoine public.</span></div>
+        <section id="demarrer"><h2>1. Lancer la plateforme</h2><p>Installez Docker Desktop avec Docker Compose v2, ouvrez un terminal à la racine du dépôt, puis lancez :</p><pre><code>docker compose up --build</code></pre><p>Une fois les services démarrés, ouvrez <a href="http://localhost:8081">http://localhost:8081</a>. Le prototype utilise le port 8081. Au premier lancement, le téléchargement des images et des dépendances peut prendre quelques minutes.</p><p>Pour arrêter la plateforme, utilisez <code>Ctrl+C</code> dans le terminal, puis exécutez <code>docker compose down</code>.</p></section>
+        <section id="tableau"><h2>2. Consulter le tableau de bord</h2><p>La vue d’ensemble présente le nombre de biens, leur valeur indicative, leur état et les dernières opérations. Les indicateurs sont calculés à partir des données de démonstration chargées dans PostgreSQL.</p></section>
+        <section id="rechercher"><h2>3. Rechercher un bien</h2><p>Ouvrez <b>Inventaire</b> dans le menu latéral. Le champ de recherche accepte un nom, une référence, un ministère ou une localisation. Les filtres permettent de limiter la liste par état ou par catégorie.</p></section>
+        <section id="services"><h2>4. Gérer les services de l’État</h2><p>Dans <b>Services de l’État</b>, recherchez et créez des fiches pour les ministères et services : rattachement ministériel, région, préfecture, adresse, responsable et contact. Une fiche peut être modifiée, désactivée ou réactivée. Les services désactivés restent consultables pour préserver le contexte historique des biens.</p></section>
+        <section id="mouvements"><h2>5. Tracer un mouvement</h2><p>Dans <b>Mouvements</b>, sélectionnez un bien, le type d’opération, une date et un motif. Pour une affectation ou un transfert, indiquez un service actif et une localisation de destination. L’application enregistre l’origine et la destination, puis actualise la fiche du bien. La maintenance, le retour de maintenance et la réforme actualisent son état sans le déplacer.</p></section>
+        <section id="ajouter"><h2>6. Ajouter un bien</h2><p>Cliquez sur <b>Ajouter un bien</b>, puis renseignez le nom, la catégorie, le ministère ou service et la localisation. Ces champs sont obligatoires. Vous pouvez également indiquer l’état, la valeur estimée, la date d’acquisition, le type et une note.</p><p>Cliquez sur <b>Enregistrer le bien</b>. Lorsque l’API est connectée, le serveur génère une référence <code>TG-…</code> et enregistre la fiche dans PostgreSQL. Si l’API est indisponible, la plateforme indique que l’ajout est temporaire : il disparaîtra au rechargement de la page.</p></section>
+        <section id="exporter"><h2>7. Exporter l’inventaire</h2><p>Utilisez le bouton <b>Exporter</b> du tableau de bord ou <b>Exporter CSV</b> dans l’inventaire. Le fichier téléchargé est nommé <code>inventaire-patrimoine-togo.csv</code>, encodé en UTF-8 et séparé par des points-virgules.</p></section>
+        <section id="rapports"><h2>8. Consulter les rapports</h2><p>Dans <b>Rapports</b>, filtrez l’inventaire par dates d’acquisition, catégorie, état ou ministère. Les indicateurs et répartitions sont recalculés après application des filtres. L’export CSV contient les seules fiches du résultat courant.</p></section>
+        <section id="carte"><h2>9. Carte du territoire</h2><p>La carte schématique regroupe les fiches selon les villes reconnues dans leur localisation. Sélectionnez une région pour consulter les biens correspondants. Les emplacements sont indicatifs : les fiches ne comportent pas de coordonnées GPS.</p></section>
+        <section id="api"><h2>10. API de démonstration</h2><p>Les routes suivantes sont accessibles depuis la machine qui exécute Docker :</p><ul><li><b>État du service :</b> <code>GET /api/v1/health</code></li><li><b>Résumé :</b> <code>GET /api/v1/summary</code></li><li><b>Inventaire :</b> <code>GET /api/v1/assets?per_page=50</code></li><li><b>Services :</b> <code>GET/POST /api/v1/services</code> et <code>PUT/PATCH /api/v1/services/{id}</code></li><li><b>Mouvements :</b> <code>GET/POST /api/v1/movements</code></li><li><b>Rapport filtré :</b> <code>GET /api/v1/reports/summary</code> avec les filtres <code>from</code>, <code>to</code>, <code>category</code>, <code>status</code> et <code>ministry</code>.</li></ul><p>Préfixez chaque route par <code>http://localhost:8081</code>.</p></section>
+        <section id="reinitialiser"><h2>11. Réinitialiser les données</h2><p>La commande <code>docker compose down -v</code> supprime le volume PostgreSQL et toutes les données locales du projet. Au prochain démarrage, la base et les exemples fictifs sont recréés.</p><div class="guide-warning"><b>Attention</b> Cette commande efface définitivement les données enregistrées dans le volume local.</div></section>
+        <section id="depannage"><h2>12. Dépannage</h2><div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Problème</th><th>Action à essayer</th></tr></thead><tbody><tr><td>La page ne s’ouvre pas</td><td>Vérifiez Docker Desktop, l’état des conteneurs avec <code>docker compose ps</code> et la disponibilité du port 8081.</td></tr><tr><td>Les indicateurs ne se chargent pas</td><td>Consultez <code>docker compose logs asset-api postgres</code>, attendez le démarrage complet puis rechargez la page.</td></tr><tr><td>Erreur de connexion PostgreSQL</td><td>Consultez les journaux Postgres et vérifiez la variable <code>DB_PASSWORD</code>.</td></tr><tr><td>Le port 8081 est occupé</td><td>Modifiez le port côté machine dans <code>docker-compose.yml</code> (par exemple <code>8082:80</code>), redémarrez et ouvrez le nouveau port.</td></tr></tbody></table></div></section>
+        <section id="limites"><h2>13. Limites du prototype</h2><p>Cette version ne comprend pas encore d’authentification, de comptes personnels, de rôles de validation, de suppression logique, de sauvegarde ni de gestion documentaire. La carte est indicative et les données sont fictives ; ne les utilisez pas comme données officielles.</p></section>
+        <a class="guide-end-link" href="/">← Revenir à la plateforme</a>
+      </article>
+    </div>
+    <footer class="guide-footer">© 2026 · Patrimoine public · Prototype pédagogique <span>République Togolaise ✳</span></footer>
+  </main>
+</body>
+</html>

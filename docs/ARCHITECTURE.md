@@ -8,7 +8,7 @@
 | Interface | HTML sémantique, CSS responsive, JavaScript sans dépendance de compilation |
 | Backend | Laravel 12, PHP 8.3 dans le conteneur |
 | API | REST JSON, version `/api/v1`, validation Laravel |
-| Données | PostgreSQL 16, migrations versionnées, identifiants séquentiels et référence métier unique |
+| Données | PostgreSQL 16, migrations versionnées, biens, services administratifs et mouvements historisés |
 | Déploiement local | Docker Compose : Nginx, API Laravel, PostgreSQL |
 | Langue et devise | Français, FCFA/XOF |
 | Compatibilité | Navigateurs modernes sur ordinateur et mobile |
@@ -16,7 +16,7 @@
 
 ## Architecture cible en services
 
-Le dépôt met en œuvre le service de gestion des actifs, une passerelle HTTP Nginx et PostgreSQL. Les domaines sont séparés dans le modèle cible pour éviter un monolithe métier. Les services identité, référentiel et audit sont des frontières d'architecture documentées ; ils ne sont pas encore des conteneurs applicatifs livrés. C'est un MVP honnête de l'architecture microservices, pas un système ministériel déjà industrialisé.
+Le dépôt met en œuvre une passerelle HTTP Nginx, une API Laravel et PostgreSQL. Le service Laravel expose des modules versionnés pour les actifs, le répertoire des services, les mouvements et les rapports. Cette première tranche reste déployée dans un même conteneur applicatif pour garder un démarrage pédagogique simple ; elle n'est donc pas encore un ensemble de microservices indépendamment déployables. Les services identité et audit restent des frontières de la cible à construire.
 
 ```mermaid
 flowchart LR
@@ -53,21 +53,36 @@ classDiagram
     +created_at: datetime
     +updated_at: datetime
   }
+  class GovernmentService {
+    +id: bigint
+    +name: string unique
+    +ministry: string
+    +region: string
+    +prefecture: string
+    +address: string
+    +manager: string
+    +contact: string
+    +is_active: boolean
+  }
+  class Movement {
+    +id: bigint
+    +reference: string unique
+    +asset_id: bigint
+    +type: enum
+    +from_ministry: string
+    +to_ministry: string
+    +from_location: string
+    +to_location: string
+    +occurred_at: date
+    +reason: string
+    +recorded_by: string
+  }
   class User <<service futur>> {
     +id: UUID
     +name: string
     +email: string
     +role: string
     +administrative_scope: string
-  }
-  class Movement <<service futur>> {
-    +id: UUID
-    +asset_reference: string
-    +from_location: string
-    +to_location: string
-    +reason: string
-    +created_by: UUID
-    +occurred_at: datetime
   }
   class AuditEvent <<service futur>> {
     +id: UUID
@@ -78,12 +93,13 @@ classDiagram
     +after: JSON
     +occurred_at: datetime
   }
-  User "1" --> "0..*" Movement : initie
+  GovernmentService "1" .. "0..*" Asset : rattachement par ministère
+  User "1" --> "0..*" Movement : initie (cible authentifiée)
   Asset "1" --> "0..*" Movement : historique
   User "1" --> "0..*" AuditEvent : acteur
 ```
 
-`Asset` est implémenté par migration Laravel. `User`, `Movement` et `AuditEvent` représentent les services de la cible à construire ; les références entre services sont des identifiants métier/UUID plutôt que des clés étrangères PostgreSQL inter-bases.
+`Asset`, `GovernmentService` et `Movement` sont implémentés par migrations Laravel. Le rattachement service/actif utilise actuellement le libellé du ministère dans la fiche du bien ; les mouvements conservent l'origine et la destination et sont enregistrés dans une transaction avec la mise à jour de l'actif. `User` et `AuditEvent` restent des éléments de cible à construire.
 
 ## Cas d'utilisation (UML)
 
@@ -144,8 +160,12 @@ sequenceDiagram
 | GET | `/api/v1/assets/{id}` | Lire une fiche |
 | PUT/PATCH | `/api/v1/assets/{id}` | Modifier une fiche |
 | DELETE | `/api/v1/assets/{id}` | Supprimer (démonstration seulement ; désactivation recommandée en vrai) |
+| GET/POST | `/api/v1/services` | Lister et créer les services de l'État |
+| PUT/PATCH | `/api/v1/services/{id}` | Modifier un service ou son statut |
+| GET/POST | `/api/v1/movements` | Consulter l'historique et enregistrer une opération |
+| GET | `/api/v1/reports/summary` | Produire des agrégats sur l'inventaire filtré |
 
-Toutes les opérations d'écriture devront être protégées par authentification et autorisation avant une mise en service. L'API de démonstration n'implémente pas encore ces contrôles : elle ne doit pas recevoir de données réelles.
+La carte est un schéma indicatif fondé sur la détection du nom des villes dans la localisation ; aucun géocodage précis n'est livré. Toutes les opérations d'écriture devront être protégées par authentification et autorisation avant une mise en service. L'API de démonstration n'implémente pas encore ces contrôles : elle ne doit pas recevoir de données réelles.
 
 ## Sécurité et exploitation à compléter avant mise en production
 

@@ -6,6 +6,9 @@
 2. **Inventaire — bureau** (1440 × 960) : titre, filtres recherche/état/catégorie, tableau et pagination.
 3. **Ajout d'un bien** (dialogue 650 px) : champs en deux colonnes, validation et actions Enregistrer/Annuler.
 4. **Vue mobile** (390 × 844) : navigation repliée, cartes sur deux colonnes, graphiques empilés, tableaux défilants horizontalement.
+5. **Services de l'État** : répertoire filtrable, statut actif/inactif et formulaire de création/modification.
+6. **Mouvements** : saisie d'une opération et registre filtrable avec origine, destination et motif.
+7. **Rapports et territoire** : filtres d'analyse, export CSV, carte régionale schématique et détail des biens par région.
 
 ## Style guide
 

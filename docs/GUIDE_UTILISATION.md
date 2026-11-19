@@ -18,6 +18,10 @@ La vue d'ensemble montre le nombre d'actifs, la valeur enregistrée, leur état 
 
 Ouvrez **Inventaire** dans le menu latéral. Saisissez un nom, une référence, un ministère ou une localisation. Les filtres permettent de limiter les résultats par état ou catégorie. Sur petit écran, ouvrez le menu avec l'icône en haut à gauche.
 
+## Gérer les services de l'État
+
+Dans **Services de l'État**, consultez le répertoire, recherchez un service et créez une fiche avec son ministère de rattachement, sa région, sa préfecture, son adresse, son responsable et son contact. Une fiche peut être modifiée, désactivée ou réactivée ; elle reste dans le répertoire afin de conserver le contexte des biens déjà rattachés. Les biens sont rattachés à un ministère/service par le libellé utilisé dans leur fiche.
+
 ## Ajouter un bien
 
 Cliquez **Ajouter un bien**, renseignez au minimum le nom, la catégorie, le ministère/service et la localisation, puis sélectionnez un état et enregistrez. Le serveur attribue une référence `TG-...`. En mode API, la fiche est persistée dans PostgreSQL. Si l'API est indisponible, la page reste consultable et annonce l'ajout dans la session de démonstration seulement : cette fiche locale disparaît au rechargement.
@@ -26,6 +30,18 @@ Cliquez **Ajouter un bien**, renseignez au minimum le nom, la catégorie, le min
 
 Cliquez **Exporter** ou **Exporter CSV** dans l'inventaire. Le navigateur télécharge `inventaire-patrimoine-togo.csv`, encodé en UTF-8 et séparé par des points-virgules. Les tableurs francophones l'ouvrent généralement directement.
 
+## Tracer un mouvement
+
+Dans **Mouvements**, choisissez le bien, le type d'opération, la date et un motif. Pour une affectation ou un transfert, choisissez également un service actif et la localisation de destination. L'enregistrement conserve l'origine dans le registre et met à jour le ministère/service, la localisation et l'état du bien. Les opérations de maintenance, retour de maintenance et réforme mettent à jour l'état sans déplacer le bien. Le registre peut être filtré par type et par texte.
+
+## Consulter les rapports
+
+Dans **Rapports**, filtrez les biens par date d'acquisition, catégorie, état ou ministère, puis appliquez les critères. Les indicateurs et tableaux par catégorie/ministère reflètent le résultat filtré. **Exporter le rapport CSV** télécharge uniquement les biens du résultat courant.
+
+## Consulter la carte du territoire
+
+La carte regroupe les biens par région à partir des noms de villes présents dans le champ de localisation (par exemple Lomé, Atakpamé, Sokodé, Kara ou Dapaong). Sélectionnez une région pour voir les biens correspondants. Ce schéma est indicatif : les fiches actuelles ne contiennent pas de coordonnées GPS et ne donnent pas une position précise.
+
 ## API pour la démonstration
 
 - Santé : `GET http://localhost:8081/api/v1/health`
@@ -33,6 +49,9 @@ Cliquez **Exporter** ou **Exporter CSV** dans l'inventaire. Le navigateur télé
 - Inventaire : `GET http://localhost:8081/api/v1/assets?per_page=50`
 - Recherche : `GET http://localhost:8081/api/v1/assets?q=Kara&status=bon`
 - Création : `POST http://localhost:8081/api/v1/assets` avec un JSON contenant `name`, `category`, `ministry`, `location`, `status`.
+- Services : `GET/POST /api/v1/services`, `PUT/PATCH /api/v1/services/{id}`.
+- Mouvements : `GET /api/v1/movements`, `POST /api/v1/movements`.
+- Rapport agrégé et détails : `GET /api/v1/reports/summary` avec les filtres `from`, `to`, `category`, `status`, `ministry`.
 
 ## Réinitialiser la démonstration
 
@@ -47,6 +66,6 @@ Cliquez **Exporter** ou **Exporter CSV** dans l'inventaire. Le navigateur télé
 | Erreur de connexion PostgreSQL au démarrage | Attendre le healthcheck ; afficher les logs Postgres et vérifier la variable `DB_PASSWORD` |
 | Port occupé | Changer la partie gauche de `8081:80` dans Compose (ex. `8082:80`), redémarrer et ouvrir le nouveau port |
 
-## Limites de ce guide
+## Limites de la démonstration
 
-La maquette ne comprend pas d'authentification, de compte personnel, de transfert réellement tracé, de suppression logique, de rôle de validation, de sauvegarde ni de gestion de documents. Ne pas saisir de données personnelles, sensibles ou authentiques du patrimoine public.
+La plateforme ne comprend pas d'authentification, de compte personnel, de rôle de validation, de sauvegarde ni de gestion de documents. La carte est indicative et les données fournies sont fictives. Ne pas saisir de données personnelles, sensibles ou authentiques du patrimoine public.

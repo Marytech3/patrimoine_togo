@@ -18,7 +18,9 @@ Le démarrage complet recommandé est Docker Compose. Pour travailler sur l'API 
 
 - Tableau de bord avec indicateurs, parc par catégorie, état des biens et dernières opérations.
 - Inventaire filtrable et consultable ; création de biens via le formulaire « Ajouter un bien ».
-- Consultation d'un bien, export CSV, recherche et filtre par état/catégorie.
+- Répertoire des services de l'État : création, modification, activation/désactivation et rattachement des biens.
+- Registre des mouvements : affectation, transfert, maintenance, retour de maintenance et réforme avec mise à jour transactionnelle de la fiche de bien.
+- Rapports filtrés par période d'acquisition, catégorie, état et ministère, avec export CSV ; carte schématique des biens par région.
 - API REST versionnée, validation serveur, PostgreSQL et jeu de données fictif de démonstration.
 - Architecture de départ en services : service Laravel de gestion des actifs et passerelle web ; les domaines identité, référentiel et audit sont explicités comme prochains services dans `docs/ARCHITECTURE.md`.
 
@@ -43,7 +45,7 @@ Depuis `asset-service` : `php artisan route:list --path=api` et `php artisan mig
 ## Normalisation de travail
 
 - Noms de branches : `feat/`, `fix/`, `docs/` suivis d'un sujet court.
-- Commits : `feat:`, `fix:`, `docs:`, `refactor:`, `test:`.
+- Commits : préfixes normalisés (`Fonctionnalité`, `Correctif`, `Documentation`, `Refactorisation`, `Vérification`) suivis d'un résumé en français.
 - PHP : PSR-12, validation à l'entrée, migrations pour toute évolution de schéma.
 - API : préfixe `/api/v1`, JSON, pagination et codes HTTP explicites.
 - Secrets dans `.env`, jamais dans Git ; ne pas utiliser de données réelles dans les démonstrations.
