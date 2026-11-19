@@ -2,7 +2,7 @@
 
 ## État de la livraison
 
-Le projet est lançable localement avec Docker. Aucun dépôt GitHub ni compte d'hébergeur n'est associé à ce workspace : aucun lien de dépôt ou URL publique ne peut être donné comme s'il existait déjà. Avant de partager la démonstration, pousser le code vers un dépôt Git, puis connecter ce dépôt à l'hébergeur et suivre l'état du déploiement.
+Le code est publié sur [GitHub](https://github.com/Marytech3/patrimoine_togo), branche `master`. Le Blueprint Render est prêt dans [`render.yaml`](../render.yaml), mais aucun service Render public n'a encore été créé. Utilisez le bouton **Déployer sur Render** dans le README ou ouvrez [le formulaire Render pour ce dépôt](https://render.com/deploy?repo=https://github.com/Marytech3/patrimoine_togo), connectez votre compte GitHub/Render et validez la création du Blueprint.
 
 ## Option de démonstration gratuite
 
@@ -10,13 +10,12 @@ Render documente le déploiement gratuit d'un service Web depuis un fournisseur 
 
 ### Procédure
 
-1. Créer un dépôt GitHub et y pousser le projet sans fichier `.env`.
-2. Dans Render, connecter le dépôt Git, puis créer une base PostgreSQL gratuite (uniquement pour la démo temporaire).
-3. Le dépôt contient [`render.yaml`](../render.yaml), un Blueprint qui décrit une application Laravel conteneurisée et PostgreSQL dans la région Frankfurt. Dans Render, choisir **New → Blueprint**, sélectionner le dépôt et valider les deux ressources gratuites. Le Dockerfile sert l'interface à la racine et l'API sous `/api` sur le même domaine ; le port HTTP suit la variable `PORT` de la plateforme.
-4. Vérifier que Render génère une `APP_KEY`, que `APP_ENV=production`, `APP_DEBUG=false`, et que les paramètres PostgreSQL sont liés à la base par le Blueprint. Ne pas ajouter de secret au dépôt.
-5. Suivre les logs du build et du démarrage, ouvrir `/api/v1/health`, puis vérifier l'interface publique et l'ajout d'une fiche fictive.
-6. Avant la date d'expiration de la base temporaire, exporter les données utiles ou détruire la démonstration. Ne pas y charger de données non publiques.
+1. Ouvrir le formulaire Render, se connecter et autoriser l'accès au dépôt GitHub si Render le demande.
+2. Sélectionner la branche `master` et vérifier que l'aperçu contient le service Web `patrimoine-togo` et la base `patrimoine-db`, tous deux au palier gratuit et dans la région Frankfurt.
+3. Vérifier que Render génère une `APP_KEY`, garde `APP_ENV=production` et `APP_DEBUG=false`, puis valider **Deploy Blueprint**. Ne pas ajouter de secret au dépôt.
+4. Suivre le build et les journaux de démarrage. L'application applique ses migrations et charge les exemples synthétiques au démarrage. Ouvrir `/api/v1/health`, puis l'URL publique et vérifier les écrans, la lecture et la création d'une fiche fictive.
+5. Copier l'URL publique dans le README et la fiche de rendu après validation. Exporter les données utiles ou supprimer la base avant son expiration. Ne jamais saisir de données officielles ou personnelles.
 
 ## Limite à traiter avant le déploiement
 
-Le Blueprint et l'adaptation au port `PORT` sont préparés, mais ne sont pas publiés : aucun dépôt distant ni compte Render n'est connecté. L'application ne comporte pas d'authentification ; la démo doit rester composée de données fictives.
+Le Blueprint et l'adaptation au port `PORT` sont publiés avec le dépôt, mais la création du service demande une session Render et une validation dans son tableau de bord. Les services Web gratuits s'arrêtent après 15 minutes sans trafic et la base PostgreSQL gratuite expire au bout de 30 jours ; cette option convient à une présentation temporaire, pas à la conservation de données. L'application ne comporte pas d'authentification ; la démo doit rester composée de données fictives. [Limites du palier gratuit Render](https://render.com/docs/free).

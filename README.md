@@ -2,6 +2,8 @@
 
 Prototype pédagogique full stack pour l'inventaire, la traçabilité et le pilotage du patrimoine public togolais. L'application est en français et utilise une identité visuelle inspirée du drapeau togolais.
 
+[![Déployer sur Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Marytech3/patrimoine_togo)
+
 ## Démarrage rapide
 
 Prérequis : Docker Desktop et Docker Compose v2.
